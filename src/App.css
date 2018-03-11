@@ -27,6 +27,23 @@
   to { transform: rotate(360deg); }
 } */
 
+html, body {
+  background: #ecebe8;
+}
+
+.mapbox {
+  max-width: 25vw;
+  max-width: 25vh;
+}
+
 h1, h2 {
-  color: dodgerblue;
+  /* color: #191414; */
+  color: #1db954;
+}
+
+.eventful-small {
+  position: relative    !important;
+  width: 100px          !important;
+  font-size: 11px       !important;
+  line-height: 11px     !important;
 }
