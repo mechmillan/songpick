@@ -13,8 +13,7 @@ class ConcertList extends Component {
     this.fetchConcerts = this.fetchConcerts.bind(this);
   }
 
-  fetchConcerts(artist) {
-    artist = "Kendrick Lamar"
+  fetchConcerts(artist = null) {
     return fetch('https://songpick-backend.herokuapp.com/graphql',
       {
         mode: 'cors',
@@ -30,18 +29,17 @@ class ConcertList extends Component {
       .catch(error => console.error(error));
   }
 
-  componentDidMount() {
-    const { artists } = this.props;
-    console.log('passed in artists', artists);
-    this.fetchConcerts();
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.artist !== 'SELECT' && nextProps.artist) {
+      this.fetchConcerts(nextProps.artist);
+    }
   }
 
   render() {
     const { concerts, urls } = this.state;
-    const { artists } = this.props;
     return (
       <Fragment>
-        <h1>Relevant Events</h1>
+        <h2>Relevant Events</h2>
 
         <ul>
           {concerts && concerts.map((concert, i) => {

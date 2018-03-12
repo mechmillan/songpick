@@ -1,16 +1,34 @@
 import React, { Component, Fragment } from 'react';
+import ConcertList from './ConcertList';
 
 class ArtistList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentArtist: ''
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const currentArtist = event.target.value;
+    this.setState({ currentArtist });
+  }
+
   render() {
     const { artists } = this.props;
     return (
       <Fragment>
-        <h1>Your top artists</h1>
-        <ul>
+        <label className="label">Filter based on your top artists  </label>
+        <select className="select" onChange={this.handleChange}>
+          <option value="SELECT">-- SELECT --</option>
           {artists && artists.map(artist => {
-            return (<li key={artist.id}>{artist.name}</li>);
+            return (<option name="artist" key={artist.id} value={artist.name}>{artist.name}</option>);
           })}
-        </ul>
+        </select>
+        <ConcertList artist={this.state.currentArtist} />
       </Fragment>
     );
   }
