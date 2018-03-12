@@ -9,6 +9,8 @@ class ConcertList extends Component {
       searchedArtist: '',
       concerts: [],
       urls: [],
+      venues: [],
+      dates: [],
     };
 
     this.fetchConcerts = this.fetchConcerts.bind(this);
@@ -35,13 +37,15 @@ class ConcertList extends Component {
       {
         mode: 'cors',
         method: 'POST',
-        body: JSON.stringify({ query: `{ event(artist: "${artist}") { artists event_urls } }` }),
+        body: JSON.stringify({ query: `{ event(artist: "${artist}") { artists event_urls event_dates venue_names} }` }),
         headers: { 'Content-Type': 'application/json' },
       })
       .then(res => res.json())
       .then(json => this.setState({
         concerts: json.data.event.artists,
         urls: json.data.event.event_urls,
+        venues: json.data.event.venue_names,
+        dates: json.data.event.event_dates,
       }))
       .catch(error => console.error(error));
   }
@@ -53,7 +57,7 @@ class ConcertList extends Component {
   }
 
   render() {
-    const { concerts, urls } = this.state;
+    const { concerts, urls, venues, dates } = this.state;
     const { user } = this.props;
     return (
       <Fragment>
@@ -74,7 +78,9 @@ class ConcertList extends Component {
         <ul>
           {concerts && concerts.map((concert, i) => {
             return (
-              <li key={concert + i}><a href={urls[i]}>{concert}</a></li>
+              <li key={concert + i}>
+                <a href={urls[i]}>{concert}</a> @ {venues[i]} on {dates[i]}
+              </li>
             );
           })}
         </ul>

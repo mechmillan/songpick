@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import queryString from 'query-string';
 
 // import Mapbox from './components/Mapbox';
-import SongList from './components/SongList';
+// import SongList from './components/SongList';
 import ArtistList from './components/ArtistList';
 import EventsBy from './components/EventsBy';
 
@@ -74,7 +74,8 @@ class App extends Component {
   }
 
   renderInit() {
-    const { user, artists, songs } = this.state.serverData;
+    const { user, artists } = this.state.serverData;
+    // const { songs } = this.state.serverData;
     return (
       <Fragment>
         {/*<Map />*/}
@@ -95,8 +96,9 @@ class App extends Component {
   }
 
   render() {
+    const { user, songs, artists } = this.state.serverData;
     return (
-      (this.state.serverData.user && this.state.serverData.songs && this.state.serverData.artists)
+      (user && songs && artists)
         ? this.renderInit()
         : (
           <button onClick={() => window.location = 'https://songpick-backend.herokuapp.com/login'}>
