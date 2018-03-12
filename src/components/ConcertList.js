@@ -64,11 +64,11 @@ class ConcertList extends Component {
 
         <form onSubmit={this.handleSubmit}>
           <h1 className="nav">Songpick | Finding concerts for {user && user}</h1>
-          <label className="label">Search by artist </label>
+          <label className="label">Search by artist or venue name</label>
           <input
             value={this.state.searchedArtist}
             className="input"
-            placeholder="Enter an artist name"
+            placeholder="Enter artist or venue"
             type="text"
             onChange={this.handleChange}
           />
