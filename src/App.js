@@ -78,7 +78,7 @@ class App extends Component {
     return (
       <Fragment>
         {/*<Map />*/}
-        {<SongList songs={songs} />}
+        {/*<SongList songs={songs} />*/}
         <ArtistList user={user} artists={artists} />
         <EventsBy />
       </Fragment>
@@ -89,7 +89,7 @@ class App extends Component {
     // Gets access token after user has logged in
     const parsed = queryString.parse(window.location.search);
     const accessToken = parsed.access_token;
-    if (this.state.serverData.user) {
+    if (this.state) {
       this.fetchInitialData(accessToken);
     }
   }
