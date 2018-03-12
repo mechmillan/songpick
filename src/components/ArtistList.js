@@ -18,9 +18,11 @@ class ArtistList extends Component {
   }
 
   render() {
-    const { artists } = this.props;
+    const { artists, user } = this.props;
     return (
       <Fragment>
+        <ConcertList user={user} artist={this.state.currentArtist} />
+
         <label className="label">Filter based on your top artists  </label>
         <select className="select" onChange={this.handleChange}>
           <option value="SELECT">-- SELECT --</option>
@@ -28,7 +30,7 @@ class ArtistList extends Component {
             return (<option name="artist" key={artist.id} value={artist.name}>{artist.name}</option>);
           })}
         </select>
-        <ConcertList artist={this.state.currentArtist} />
+
       </Fragment>
     );
   }

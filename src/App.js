@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import queryString from 'query-string';
 
-import FilterConcerts from './components/FilterConcerts';
-import Mapbox from './components/Mapbox';
+// import Mapbox from './components/Mapbox';
 import SongList from './components/SongList';
 import ArtistList from './components/ArtistList';
 import EventsBy from './components/EventsBy';
@@ -37,7 +36,8 @@ class App extends Component {
       ])
       .then(([meData, artistsData, songsData]) => {
         let topSongs = [];
-        songsData.items.map(singleSongData => topSongs.push(singleSongData.name));
+
+        songsData && songsData.items.map(singleSongData => topSongs.push(singleSongData.name));
 
         this.setState({
           serverData: {
@@ -77,10 +77,9 @@ class App extends Component {
     const { user, artists, songs } = this.state.serverData;
     return (
       <Fragment>
-        <FilterConcerts user={user} />
         {/*<Map />*/}
-        <ArtistList artists={artists} />
-        {/*<SongList songs={songs} />*/}
+        {<SongList songs={songs} />}
+        <ArtistList user={user} artists={artists} />
         <EventsBy />
       </Fragment>
     );
@@ -90,19 +89,19 @@ class App extends Component {
     // Gets access token after user has logged in
     const parsed = queryString.parse(window.location.search);
     const accessToken = parsed.access_token;
-    if (this.state) {
+    if (this.state.serverData.user) {
       this.fetchInitialData(accessToken);
     }
   }
 
   render() {
     return (
-      (!this.state)
-        ? (
+      (this.state.serverData.user && this.state.serverData.songs && this.state.serverData.artists)
+        ? this.renderInit()
+        : (
           <button onClick={() => window.location = 'https://songpick-backend.herokuapp.com/login'}>
             Login with Spotify
           </button>)
-        : this.renderInit()
     );
   }
 }

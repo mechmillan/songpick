@@ -6,11 +6,28 @@ class ConcertList extends Component {
     super(props);
 
     this.state = {
+      searchedArtist: '',
       concerts: [],
       urls: [],
     };
 
     this.fetchConcerts = this.fetchConcerts.bind(this);
+
+    // for search field
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    let searchedArtist = event.target.value;
+    this.setState({ searchedArtist });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    // api request to eventful api after form submit
+    this.fetchConcerts(this.state.searchedArtist);
+    this.setState({ searchedArtist: '' });
   }
 
   fetchConcerts(artist = null) {
@@ -29,7 +46,7 @@ class ConcertList extends Component {
       .catch(error => console.error(error));
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.artist !== 'SELECT' && nextProps.artist) {
       this.fetchConcerts(nextProps.artist);
     }
@@ -37,18 +54,30 @@ class ConcertList extends Component {
 
   render() {
     const { concerts, urls } = this.state;
+    const { user } = this.props;
     return (
       <Fragment>
-        <h2>Relevant Events</h2>
 
+        <form onSubmit={this.handleSubmit}>
+          <h1 className="nav">Songpick | Finding concerts for {user && user}</h1>
+          <label className="label">Search by artist </label>
+          <input
+            value={this.state.searchedArtist}
+            className="input"
+            placeholder="Enter an artist name"
+            type="text"
+            onChange={this.handleChange}
+          />
+        </form>
+
+        <h2>Relevant Events</h2>
         <ul>
           {concerts && concerts.map((concert, i) => {
             return (
-              <li key={concert+i}><a href={urls[i]}>{concert}</a></li>
+              <li key={concert + i}><a href={urls[i]}>{concert}</a></li>
             );
           })}
         </ul>
-
       </Fragment>
     );
   }
