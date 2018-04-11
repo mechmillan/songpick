@@ -4,6 +4,7 @@ The intention for this project was to create a simple prototype of pulling in re
 
 # Visit
 [Skeleton Front-End](http://songpick-f.herokuapp.com/)
+
 [GraphQL Endpoint](http://songpick-backend.herokuapp.com/graphql)
 
 # Presentation
